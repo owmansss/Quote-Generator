@@ -3,6 +3,8 @@ const quoteText = document.getElementById('quote');
 const author = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
+const audioBtn = document.getElementById('audio');
+
 
 let apiQuotes = [];
 
@@ -46,7 +48,17 @@ function tweetQuote(){
     const twitterURL = `https://twitter.com/intent/tweet?text=${quoteText.textContent}-${author.textContent}`;
     window.open(twitterURL, '_blank');
 }
+// Check for audio play BTN
+function playQuotes(){
+    const synthesis = window.speechSynthesis;
+    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+    quoteText.textContent = quote.text;
+    const utterance = new SpeechSynthesisUtterance(quote.text);
+    synthesis.speak(utterance);
+}
 
+
+audioBtn.addEventListener('click', playQuotes);
 newQuoteBtn.addEventListener('click', newQuote);
 twitterBtn.addEventListener('click', tweetQuote);
 
