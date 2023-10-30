@@ -1,38 +1,37 @@
-const quoteContainer = document.getElementById('quote-container');
-const quoteText = document.getElementById('quote');
-const author = document.getElementById('author');
-const twitterBtn = document.getElementById('twitter');
-const newQuoteBtn = document.getElementById('new-quote');
-const audioBtn = document.getElementById('audio');
+const quoteContainer = document.getElementById('quote-container')
+const quoteText = document.getElementById('quote')
+const author = document.getElementById('author')
+const twitterBtn = document.getElementById('twitter')
+const newQuoteBtn = document.getElementById('new-quote')
+const audioBtn = document.getElementById('audio')
 
+let apiQuotes = []
 
-let apiQuotes = [];
-
-function newQuote(){
-    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    if(!quote.author){
-        author.textContent = 'Anonymous'
-    } else{
-        author.textContent = quote.author;
-    };
-    if(quote.text.length > 50){
-        quoteText.classList.add('long-quote');
-    } else{
-        quoteText.classList.remove('long-quote');
-    }
-    quoteText.textContent = quote.text;
+function newQuote() {
+  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)]
+  if (!quote.author) {
+    author.textContent = 'Anonymous'
+  } else {
+    author.textContent = quote.author
+  }
+  if (quote.text.length > 50) {
+    quoteText.classList.add('long-quote')
+  } else {
+    quoteText.classList.remove('long-quote')
+  }
+  quoteText.textContent = quote.text
 }
 // Get Quotes from API
-async function getQuotes(){
-    const apiURL = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
-    try{ 
-        const response = await fetch(apiURL);
-        apiQuotes = await response.json();
-        newQuote();
-    } catch (error){
-        alert('404 Error')
-    }
-};
+async function getQuotes() {
+  const apiURL = 'https://jacintodesign.github.io/quotes-api/data/quotes.json'
+  try {
+    const response = await fetch(apiURL)
+    apiQuotes = await response.json()
+    newQuote()
+  } catch (error) {
+    alert('404 Error')
+  }
+}
 
 // function complete (){
 //     quoteContainer.hidden = false;
@@ -44,24 +43,23 @@ async function getQuotes(){
 //     quoteContainer.hidden = true;
 // }
 
-function tweetQuote(){
-    const twitterURL = `https://twitter.com/intent/tweet?text=${quoteText.textContent}-${author.textContent}`;
-    window.open(twitterURL, '_blank');
+function tweetQuote() {
+  const twitterURL = `https://twitter.com/intent/tweet?text=${quoteText.textContent}-${author.textContent}`
+  window.open(twitterURL, '_blank')
 }
 // Check for audio play BTN
-function playQuotes(){
-    const synthesis = window.speechSynthesis;
-    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    quoteText.textContent = quote.text;
-    const utterance = new SpeechSynthesisUtterance(quote.text);
-    synthesis.speak(utterance);
+function playQuotes() {
+  const synthesis = window.speechSynthesis
+//   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)]
+//   quoteText.textContent = quote.text
+  const utterance = new SpeechSynthesisUtterance(quote.textContent)
+  synthesis.speak(utterance)
 }
 
-
-audioBtn.addEventListener('click', playQuotes);
-newQuoteBtn.addEventListener('click', newQuote);
-twitterBtn.addEventListener('click', tweetQuote);
+audioBtn.addEventListener('click', playQuotes)
+newQuoteBtn.addEventListener('click', newQuote)
+twitterBtn.addEventListener('click', tweetQuote)
 
 // On Load
-getQuotes();
-// 
+getQuotes()
+//
